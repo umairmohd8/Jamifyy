@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "546157917174",
+    "project_id": "jamifyy-62fb4",
+    "storage_bucket": "jamifyy-62fb4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:546157917174:android:489515bba72619e0010dd7",
+        "android_client_info": {
+          "package_name": "com.example.jamifyy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "546157917174-phtjs46c8vtj57r1jjmnfgftd52vr80e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpz1x-yNEXQbZ4A2-hLsS_jEt-3ZFNlG8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "546157917174-phtjs46c8vtj57r1jjmnfgftd52vr80e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

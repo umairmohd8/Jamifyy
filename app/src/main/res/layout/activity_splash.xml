@@ -50,7 +50,7 @@
         android:background="@drawable/roundedbutton"
         android:backgroundTint="#003366"
         android:fontFamily="@font/candal"
-        android:onClick="authenticateSpotify"
+        android:onClick="openRoom"
         android:text="join room"
         android:textColor="#99CC99"
         android:textSize="20sp"

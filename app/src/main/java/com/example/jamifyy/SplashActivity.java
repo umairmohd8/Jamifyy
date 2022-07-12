@@ -1,6 +1,7 @@
 package com.example.jamifyy;
 
 //import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -70,6 +71,11 @@ public class SplashActivity extends AppCompatActivity {
                         Log.d("MainActivity", track.name + " by " + track.artist.name);
                     }
                 });
+    }
+
+    public void openRoom(View view){
+        Intent intent = new Intent(this,RoomActivity.class);
+        startActivity(intent);
     }
 
     @Override

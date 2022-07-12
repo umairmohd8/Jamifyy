@@ -55,4 +55,6 @@ public class SongInfo {
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
     }
+
+
 }

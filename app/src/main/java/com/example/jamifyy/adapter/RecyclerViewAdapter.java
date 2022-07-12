@@ -49,6 +49,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         String tName = trackList.get(position).getTrackName();
         String aName = trackList.get(position).getArtistName();
         //String tName = trackList.get(position).getTrackName();
+        holder.trackName.setText(tName);
+        holder.artistName.setText(aName);
 
     }
 
