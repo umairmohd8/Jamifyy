@@ -31,7 +31,7 @@
         android:background="@drawable/roundedbutton"
         android:backgroundTint="#B9063868"
         android:fontFamily="@font/candal"
-        android:onClick="authenticateSpotify"
+        android:onClick="authSpotify"
         android:text="create room"
         android:textColor="#99CC99"
         android:textSize="20sp"

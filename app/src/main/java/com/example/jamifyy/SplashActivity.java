@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.spotify.android.appremote.api.ConnectionParams;
@@ -15,10 +16,17 @@ import com.spotify.android.appremote.api.SpotifyAppRemote;
 import com.spotify.protocol.client.Subscription;
 import com.spotify.protocol.types.PlayerState;
 import com.spotify.protocol.types.Track;
+import com.spotify.sdk.android.auth.AuthorizationClient;
+import com.spotify.sdk.android.auth.AuthorizationRequest;
+import com.spotify.sdk.android.auth.AuthorizationResponse;
 
 public class SplashActivity extends AppCompatActivity {
     private static final String CLIENT_ID = "f59d811ac9ae4fde91858b4957d8ded1";
     private static final String REDIRECT_URI = "http://com.example.jamifyy/callback";
+    private static final int REQUEST_CODE = 1337;
+    private static final String SCOPES = "user-read-recently-played,user-library-modify,user-read-email,user-read-private";
+
+
     private SpotifyAppRemote mSpotifyAppRemote;
 
     @Override
@@ -51,11 +59,14 @@ public class SplashActivity extends AppCompatActivity {
                         // Something went wrong when attempting to connect! Handle errors here
                     }
                 });
+    }
 
-        /*AuthenticationRequest.Builder builder = new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
+    public void authSpotify(View view){
+        AuthorizationRequest.Builder builder = new AuthorizationRequest.Builder(CLIENT_ID, AuthorizationResponse.Type.TOKEN,REDIRECT_URI);
         builder.setScopes(new String[]{SCOPES});
-        AuthenticationRequest request = builder.build();
-        AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);*/
+        AuthorizationRequest request = builder.build();
+        AuthorizationClient.openLoginActivity(this,REQUEST_CODE,request);
+
     }
 
     private void connected() {
@@ -76,7 +87,41 @@ public class SplashActivity extends AppCompatActivity {
     public void openRoom(View view){
         Intent intent = new Intent(this,RoomActivity.class);
         startActivity(intent);
+
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+
+        // Check if result comes from the correct activity
+        if (requestCode == REQUEST_CODE) {
+            AuthorizationResponse response = AuthorizationClient.getResponse(resultCode, intent);
+
+            switch (response.getType()) {
+                // Response was successful and contains auth token
+                case TOKEN:
+
+                    //editor = getSharedPreferences("SPOTIFY", 0).edit();
+                    //editor.putString("token", response.getAccessToken());
+                    Log.d("STARTING", "GOT AUTH TOKEN" +response.getAccessToken());
+                    //editor.apply();
+                    //waitForUserInfo();
+                    break;
+
+                // Auth flow returned an error
+                case ERROR:
+                    // Handle error response
+                    break;
+
+                // Most likely auth flow was cancelled
+                default:
+                    // Handle other cases
+            }
+        }
+    }
+
+
 
     @Override
     protected void onStop() {

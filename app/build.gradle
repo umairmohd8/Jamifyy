@@ -28,13 +28,18 @@ android {
     }
 }
 
-
+repositories {
+    mavenCentral()
+}
 
 dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
     implementation files('libs/spotify-remote.aar')
+    implementation 'com.spotify.android:auth:1.2.5'
+
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.google.android.material:material:1.0.0'
