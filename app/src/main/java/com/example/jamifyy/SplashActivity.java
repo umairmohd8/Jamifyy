@@ -2,19 +2,17 @@ package com.example.jamifyy;
 
 //import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
 
-import com.spotify.protocol.client.Subscription;
-import com.spotify.protocol.types.PlayerState;
 import com.spotify.protocol.types.Track;
 import com.spotify.sdk.android.auth.AuthorizationClient;
 import com.spotify.sdk.android.auth.AuthorizationRequest;
@@ -25,6 +23,10 @@ public class SplashActivity extends AppCompatActivity {
     private static final String REDIRECT_URI = "http://com.example.jamifyy/callback";
     private static final int REQUEST_CODE = 1337;
     private static final String SCOPES = "user-read-recently-played,user-library-modify,user-read-email,user-read-private";
+    private String mAccessToken;
+
+    private SharedPreferences.Editor editor;
+    private SharedPreferences sharedPreferences;
 
 
     private SpotifyAppRemote mSpotifyAppRemote;
@@ -35,6 +37,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
     }
 
+    //using sdk to
     public void authenticateSpotify(View view) {
         ConnectionParams connectionParams = new ConnectionParams.Builder(CLIENT_ID)
                 .setRedirectUri(REDIRECT_URI)
@@ -69,6 +72,40 @@ public class SplashActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+
+        // Check if result comes from the correct activity
+        if (requestCode == REQUEST_CODE) {
+            AuthorizationResponse response = AuthorizationClient.getResponse(resultCode, intent);
+
+            switch (response.getType()) {
+                // Response was successful and contains auth token
+                case TOKEN:
+                    mAccessToken = response.getAccessToken();
+
+                    //adding token to the shared preference
+                    //editor = getSharedPreferences("SPOTIFY",0).edit();
+                    //editor.putString("token", mAccessToken);
+                    Log.i("STARTING", "GOT AUTH TOKEN " + mAccessToken);
+                    //editor.apply();
+                    break;
+
+                // Auth flow returned an error
+                case ERROR:
+                    Log.i("token","failed auth token");
+                    // Handle error response
+                    break;
+
+                // Most likely auth flow was cancelled
+                default:
+                    Log.i("token","idk");
+                    // Handle other cases
+            }
+        }
+    }
+
     private void connected() {
         // Play a playlist
         mSpotifyAppRemote.getPlayerApi().play("spotify:playlist:37i9dQZF1DX2sUQwD7tbmL");
@@ -86,42 +123,10 @@ public class SplashActivity extends AppCompatActivity {
 
     public void openRoom(View view){
         Intent intent = new Intent(this,RoomActivity.class);
+        intent.putExtra("aToken",mAccessToken);
         startActivity(intent);
 
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
-
-        // Check if result comes from the correct activity
-        if (requestCode == REQUEST_CODE) {
-            AuthorizationResponse response = AuthorizationClient.getResponse(resultCode, intent);
-
-            switch (response.getType()) {
-                // Response was successful and contains auth token
-                case TOKEN:
-
-                    //editor = getSharedPreferences("SPOTIFY", 0).edit();
-                    //editor.putString("token", response.getAccessToken());
-                    Log.d("STARTING", "GOT AUTH TOKEN" +response.getAccessToken());
-                    //editor.apply();
-                    //waitForUserInfo();
-                    break;
-
-                // Auth flow returned an error
-                case ERROR:
-                    // Handle error response
-                    break;
-
-                // Most likely auth flow was cancelled
-                default:
-                    // Handle other cases
-            }
-        }
-    }
-
-
 
     @Override
     protected void onStop() {

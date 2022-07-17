@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.jamifyy.adapter.RecyclerViewAdapter;
+import com.example.jamifyy.backend.ParseSong;
 import com.example.jamifyy.skeleton.SongInfo;
 
 import org.w3c.dom.Text;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 public class RoomActivity extends AppCompatActivity {
     private ArrayList<SongInfo> trackList;
     private RecyclerView recyclerView;
+    private String aToken;
     String songLink;
     Button addButton;
     AlertDialog dialog;
@@ -54,8 +56,8 @@ public class RoomActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
     private void setSongInfo(){
-        trackList.add(new SongInfo("hold on", "justin", 0,"1nahzW3kfMuwReTka28tH5?si=689b0a20ea1b44e0","https://i.scdn.co/image/ab67616d000048517359994525d219f64872d3b1" ));
-        trackList.add(new SongInfo("hold off", "justin", 0,"1nahzW3kfMuwReTka28tH5?si=689b0a20ea1b44e0","https://i.scdn.co/image/ab67616d000048517359994525d219f64872d3b1" ));
+        trackList.add(new SongInfo("Glimpse of Us", "Joji", 0,"1nahzW3kfMuwReTka28tH5?si=689b0a20ea1b44e0","https://i.scdn.co/image/ab67616d000048517359994525d219f64872d3b1" ));
+        trackList.add(new SongInfo("Crash My Car", "COIN", 0,"1nahzW3kfMuwReTka28tH5?si=689b0a20ea1b44e0","https://i.scdn.co/image/ab67616d000048517359994525d219f64872d3b1" ));
 
     }
 
@@ -71,8 +73,17 @@ public class RoomActivity extends AppCompatActivity {
             public void onClick(View v) {
                 songLink = sLink.getText().toString();
                 Log.d("test", songLink);
-                Log.d("test","clicked");
+                Log.i("test","clicked");
                 dialog.dismiss();
+
+                Bundle extras = getIntent().getExtras();
+                if(extras != null){
+                    aToken = extras.getString("aToken");
+                }
+
+                //calling the parse song class to parse the data of the song from the song link
+                ParseSong par = new ParseSong();
+                par.get_trackid(songLink,aToken);
             }
         });
 

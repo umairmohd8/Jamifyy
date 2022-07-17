@@ -11,12 +11,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.jamifyy.R;
+import com.example.jamifyy.connectors.SongService;
 import com.example.jamifyy.skeleton.SongInfo;
 
 import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
     private ArrayList<SongInfo>  trackList;
+    private SongService songService;
 
     public  RecyclerViewAdapter(ArrayList<SongInfo> trackList){
         this.trackList = trackList;
