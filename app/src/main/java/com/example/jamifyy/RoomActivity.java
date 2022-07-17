@@ -6,8 +6,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -17,8 +17,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.jamifyy.adapter.RecyclerViewAdapter;
 import com.example.jamifyy.backend.ParseSong;
 import com.example.jamifyy.skeleton.SongInfo;
-
-import org.w3c.dom.Text;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -27,6 +30,7 @@ public class RoomActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter;
     private String aToken;
+    private DatabaseReference databaseReference;
     String songLink;
     Button addButton;
     AlertDialog dialog;
@@ -37,17 +41,24 @@ public class RoomActivity extends AppCompatActivity {
         setContentView(R.layout.activity_room);
         recyclerView = findViewById(R.id.trackRecycler);
         trackList = new ArrayList<>();
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        databaseReference = db.getReference(SongInfo.class.getSimpleName());
         setSongInfo();
         setAdapter();
 
+
+    }
+    public RoomActivity(){
+        trackList = new ArrayList<>();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
+        retrieve();
 
     }
+
 
     private void setAdapter(){
         this.adapter = new RecyclerViewAdapter(trackList,this);
@@ -67,10 +78,15 @@ public class RoomActivity extends AppCompatActivity {
 
         adapter.notifyDataSetChanged();
     }
-    public void setNewSong(SongInfo song){
-        trackList.add(song);
+    public void setNewSong(String trackName, String artist, int up,String id, String url){
+        trackList.add(new SongInfo(trackName,artist,up,id,url));
         adapter.notifyDataSetChanged();
 
+    }
+
+    private void setSongDB(SongInfo song1){
+        trackList.add(song1);
+        adapter.notifyDataSetChanged();
     }
 
 
@@ -106,6 +122,32 @@ public class RoomActivity extends AppCompatActivity {
         dialog.show();
 
     }
+
+
+
+    public void retrieve(){
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //newtrack = new ArrayList<SongInfo>();
+                Log.i("parsesong", "datachanged");
+                //RoomActivity room1 = new RoomActivity();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    SongInfo songInfo = dataSnapshot.getValue(SongInfo.class);
+                    assert songInfo != null;
+                    Log.i("test", songInfo.getArtistName());
+                    setSongDB(songInfo);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
 }
 
 //https://open.spotify.com/track/1nahzW3kfMuwReTka28tH5?si=689b0a20ea1b44e0

@@ -76,7 +76,7 @@ public class ParseSong {
 
         });
 
-        dao.retrieve();
+        //dao.retrieve();
 
 
 

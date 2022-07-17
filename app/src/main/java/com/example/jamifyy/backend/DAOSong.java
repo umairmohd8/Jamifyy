@@ -39,7 +39,7 @@ public class DAOSong {
                     assert songInfo != null;
                     Log.i("parsesong-gotdb",songInfo.getArtistName());
                     //newtrack.add(songInfo);
-                    room1.setNewSong(songInfo);
+                    room1.setNewSong(songInfo.getTrackName(),songInfo.getArtistName(),0,songInfo.getTrackID(),songInfo.getImageURL());
                     assert songInfo != null;
                     Log.i("parsesong-gotdb",songInfo.getArtistName());
                 }
