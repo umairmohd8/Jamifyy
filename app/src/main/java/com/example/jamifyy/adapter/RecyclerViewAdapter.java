@@ -1,15 +1,18 @@
 package com.example.jamifyy.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.jamifyy.R;
 import com.example.jamifyy.connectors.SongService;
 import com.example.jamifyy.skeleton.SongInfo;
@@ -18,16 +21,19 @@ import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
     private ArrayList<SongInfo>  trackList;
-    private SongService songService;
+    private Context context;
+    //private SongService songService;
 
-    public  RecyclerViewAdapter(ArrayList<SongInfo> trackList){
+    public  RecyclerViewAdapter(ArrayList<SongInfo> trackList, Context context){
         this.trackList = trackList;
+        this.context  = context;
+
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         private TextView trackName;
         private TextView artistName;
-        private Button upvote;
+        private ImageButton upvote;
         private ImageView trackImage;
 
         public MyViewHolder(final View view){
@@ -35,6 +41,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             trackName = view.findViewById(R.id.songName);
             artistName = view.findViewById(R.id.artist);
             trackImage = view.findViewById(R.id.songImage);
+            upvote = view.findViewById(R.id.upvoteImageView);
 
         }
     }
@@ -50,9 +57,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull RecyclerViewAdapter.MyViewHolder holder, int position) {
         String tName = trackList.get(position).getTrackName();
         String aName = trackList.get(position).getArtistName();
-        //String tName = trackList.get(position).getTrackName();
+        String image_url = trackList.get(position).getImageURL();
+
         holder.trackName.setText(tName);
         holder.artistName.setText(aName);
+        //holder.trackImage.set
+
+        Glide.with(context).load(image_url).into(holder.trackImage);
+
+
 
     }
 

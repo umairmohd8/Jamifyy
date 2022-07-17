@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.jamifyy.SplashActivity;
+import com.example.jamifyy.backend.ParseSong;
 import com.google.gson.JsonObject;
 
 import org.json.JSONException;
@@ -46,10 +47,13 @@ public class SongService {
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 try {
                     final JSONObject jsonObject = new JSONObject(response.body().string());
-                    Log.i("Response String",jsonObject.toString(3));
+                    Log.i("SongService",jsonObject.toString(3));
+                    //parsing jsonObject to retrive track data
+                    ParseSong parseSong = new ParseSong();
+                    parseSong.parse_json(jsonObject,track_id);
 
                 } catch (Exception e){
-                    Log.i("Json parsing","failed to parse json data " + e.getMessage());
+                    Log.i("SongService","failed to parse json data " + e.getMessage());
                 }
             }
         });

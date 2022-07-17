@@ -49,7 +49,7 @@ public class RoomActivity extends AppCompatActivity {
     }
 
     private void setAdapter(){
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(trackList);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(trackList,this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -72,7 +72,7 @@ public class RoomActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 songLink = sLink.getText().toString();
-                Log.d("test", songLink);
+                Log.d("RoomActivity", songLink);
                 Log.i("test","clicked");
                 dialog.dismiss();
 
