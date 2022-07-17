@@ -16,6 +16,10 @@ public class SongInfo {
         this.imageURL = imageURL;
     }
 
+    public SongInfo(){
+
+    }
+
     public String getTrackName() {
         return trackName;
     }

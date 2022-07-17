@@ -25,6 +25,7 @@ import java.util.ArrayList;
 public class RoomActivity extends AppCompatActivity {
     private ArrayList<SongInfo> trackList;
     private RecyclerView recyclerView;
+    private RecyclerViewAdapter adapter;
     private String aToken;
     String songLink;
     Button addButton;
@@ -49,17 +50,29 @@ public class RoomActivity extends AppCompatActivity {
     }
 
     private void setAdapter(){
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(trackList,this);
+        this.adapter = new RecyclerViewAdapter(trackList,this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
     }
+    SongInfo song1 = new SongInfo("Glimpse of You", "Joji", 0,"1nahzW3kfMuwReTka28tH5?si=689b0a20ea1b44e0","https://i.scdn.co/image/ab67616d000048517359994525d219f64872d3b1");
     private void setSongInfo(){
-        trackList.add(new SongInfo("Glimpse of Us", "Joji", 0,"1nahzW3kfMuwReTka28tH5?si=689b0a20ea1b44e0","https://i.scdn.co/image/ab67616d000048517359994525d219f64872d3b1" ));
+        trackList.add(song1);
         trackList.add(new SongInfo("Crash My Car", "COIN", 0,"1nahzW3kfMuwReTka28tH5?si=689b0a20ea1b44e0","https://i.scdn.co/image/ab67616d000048517359994525d219f64872d3b1" ));
 
     }
+    public void setSongDB(View view){
+        trackList.add(new SongInfo("Crash My Car", "COIN", 0,"1nahzW3kfMuwReTka28tH5?si=689b0a20ea1b44e0","https://i.scdn.co/image/ab67616d000048517359994525d219f64872d3b1" ));
+
+        adapter.notifyDataSetChanged();
+    }
+    public void setNewSong(SongInfo song){
+        trackList.add(song);
+        adapter.notifyDataSetChanged();
+
+    }
+
 
     public void popDialogue(View view){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

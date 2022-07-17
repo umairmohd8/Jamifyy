@@ -4,10 +4,15 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.jamifyy.RoomActivity;
 import com.example.jamifyy.connectors.SongService;
 import com.example.jamifyy.skeleton.SongInfo;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
@@ -71,9 +76,7 @@ public class ParseSong {
 
         });
 
-
-
-
+        dao.retrieve();
 
 
 

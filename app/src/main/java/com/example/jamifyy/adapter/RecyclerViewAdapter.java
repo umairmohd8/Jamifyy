@@ -61,11 +61,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         holder.trackName.setText(tName);
         holder.artistName.setText(aName);
-        //holder.trackImage.set
 
+        //glide package for loading images from url
         Glide.with(context).load(image_url).into(holder.trackImage);
-
-
 
     }
 
