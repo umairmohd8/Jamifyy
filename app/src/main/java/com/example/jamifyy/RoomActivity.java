@@ -24,11 +24,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class RoomActivity extends AppCompatActivity {
     private ArrayList<SongInfo> trackList;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter;
+
+    Timer timer = new Timer();
     private String aToken;
     private DatabaseReference databaseReference;
     String songLink;
@@ -43,14 +47,14 @@ public class RoomActivity extends AppCompatActivity {
         trackList = new ArrayList<>();
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         databaseReference = db.getReference(SongInfo.class.getSimpleName());
-        setSongInfo();
+        //setSongInfo();
         setAdapter();
 
 
     }
-    public RoomActivity(){
+    /*public RoomActivity(){
         trackList = new ArrayList<>();
-    }
+    }*/
 
     @Override
     protected void onStart() {
@@ -58,6 +62,22 @@ public class RoomActivity extends AppCompatActivity {
         retrieve();
 
     }
+
+    private void freq(){
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                RoomActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+
+            }
+        }, 0, 2000);
+    }
+
 
 
     private void setAdapter(){
@@ -77,11 +97,6 @@ public class RoomActivity extends AppCompatActivity {
         trackList.add(new SongInfo("Crash My Car", "COIN", 0,"1nahzW3kfMuwReTka28tH5?si=689b0a20ea1b44e0","https://i.scdn.co/image/ab67616d000048517359994525d219f64872d3b1" ));
 
         adapter.notifyDataSetChanged();
-    }
-    public void setNewSong(String trackName, String artist, int up,String id, String url){
-        trackList.add(new SongInfo(trackName,artist,up,id,url));
-        adapter.notifyDataSetChanged();
-
     }
 
     private void setSongDB(SongInfo song1){
@@ -129,9 +144,10 @@ public class RoomActivity extends AppCompatActivity {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                //newtrack = new ArrayList<SongInfo>();
+
+
                 Log.i("parsesong", "datachanged");
-                //RoomActivity room1 = new RoomActivity();
+                trackList.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     SongInfo songInfo = dataSnapshot.getValue(SongInfo.class);
                     assert songInfo != null;

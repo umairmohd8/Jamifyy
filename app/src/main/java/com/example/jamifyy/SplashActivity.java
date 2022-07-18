@@ -52,6 +52,7 @@ public class SplashActivity extends AppCompatActivity {
                         Log.d("MainActivity", "Connected! Yay!");
 
                         // Now you can start interacting with App Remote
+                        openRoom();
                         connected();
 
                     }
@@ -89,6 +90,7 @@ public class SplashActivity extends AppCompatActivity {
                     //editor = getSharedPreferences("SPOTIFY",0).edit();
                     //editor.putString("token", mAccessToken);
                     Log.i("STARTING", "GOT AUTH TOKEN " + mAccessToken);
+                    openRoom();
                     //editor.apply();
                     break;
 
@@ -121,9 +123,10 @@ public class SplashActivity extends AppCompatActivity {
                 });
     }
 
-    public void openRoom(View view){
+    public void openRoom(){
         Intent intent = new Intent(this,RoomActivity.class);
         intent.putExtra("aToken",mAccessToken);
+        //intent.putExtra("remote",mSpotifyAppRemote);
         startActivity(intent);
 
     }

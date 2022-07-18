@@ -26,6 +26,7 @@ public class DAOSong {
     public Task<Void> add(SongInfo song){
         return databaseReference.push().setValue(song);
     }
+    /*
 
     public ValueEventListener retrieve(){
         return databaseReference.addValueEventListener(new ValueEventListener() {
@@ -51,6 +52,8 @@ public class DAOSong {
             }
         });
     }
+
+     */
 
     public DatabaseReference getDatabaseReference() {
         return databaseReference;

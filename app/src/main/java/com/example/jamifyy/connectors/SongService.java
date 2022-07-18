@@ -27,7 +27,7 @@ public class SongService {
     private final OkHttpClient client = new OkHttpClient();
     public void get_track_info(String track_id, String access_token){
         String url_str = "https://api.spotify.com/v1/tracks/" +track_id;
-        Log.i("url",track_id);
+        Log.i("url",url_str);
         String bear = "Bearer " + access_token;
         final Request request = new Request.Builder()
                 .url(url_str)
